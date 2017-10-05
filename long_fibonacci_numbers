@@ -1,0 +1,48 @@
+"""
+Finds the first fibonacci number with a given number of digits
+"""
+
+
+import sys
+import time
+import numpy as np
+
+def matmult(a,b):
+  zip_b = zip(*b)
+  # uncomment next line if python 3 : 
+  zip_b = list(zip_b)
+  return [[sum(ele_a*ele_b for ele_a, ele_b in zip(row_a, col_b)) for col_b in zip_b] for row_a in a]
+
+
+def main():
+
+  start_time = time.time()
+
+  args = sys.argv[1:]
+  if len(args) != 1:
+    print("Usage: target # of digits in fibonacci number")
+    return
+
+  index = 1
+  target = int(args[0])
+  limit = 10 ** (target - 1)
+
+  unit = [[1, 1], [1, 0]]
+  fib_array = [[1, 1], [1, 0]]
+
+  counter = 1
+  fib = 2
+
+  while True:
+    if fib_array[0][1] >= limit:
+      print("The first fibonacci number with {} digits is: {}".format(target, fib_array[0][1]))
+      print("It has index: {}".format(index))
+      break
+    fib_array = matmult(fib_array, unit)
+    index += 1
+             
+  print("My program took", time.time() - start_time, "seconds to run")
+
+
+if __name__ == '__main__':
+  main()
